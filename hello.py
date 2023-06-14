@@ -1,36 +1,36 @@
-from flask import Flask, request, make_response, redirect, abort
+from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+
+from dotenv import load_dotenv
+from datetime import datetime
+
+
+# Load the environment variables from .env file
+load_dotenv()
+
 
 app = Flask(__name__)
+
+bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 
 @app.get("/")
 def index():
-    user_agent = request.headers.get("User-Agent")
-    return f"<p>Your browser is {user_agent}</p>"
+    return render_template("index.html", current_time=datetime.utcnow())
 
 
 @app.get("/user/<name>")
 def user(name):
-    if name not in ["Dave", "Mary", "John"]:
-        abort(404)
-
-    return f"<h1>Hello, {name}!</h1>"
+    return render_template("user.html", name=name)
 
 
-@app.get("/carries-cookie")
-def carries_cookie():
-    response = make_response("<h1>This document carries a cookie!</h1>")
-    response.set_cookie("answer", "42")
-
-    return response
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 
-@app.get("/redirect-me")
-def redirect_me():
-    return redirect("http://www.example.com")
-
-
-@app.post("/user")
-def create_user():
-    json_body = request.get_json()
-    return f"Creating a user with the name: {json_body.get('name')}"
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template("500.html"), 500
