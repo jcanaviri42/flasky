@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 
-# Load the environment variables from .env file
 load_dotenv()
-
 
 app = Flask(__name__)
 
