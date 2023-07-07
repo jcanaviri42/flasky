@@ -17,7 +17,7 @@ def make_shell_context():
 
 
 @app.cli.command()
-@click.argument('test_names', nargs=-1)
+@click.argument("test_names", nargs=-1)
 def test(test_names):
     """Run the unit tests."""
     import unittest

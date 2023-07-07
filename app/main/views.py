@@ -1,4 +1,5 @@
 from flask import render_template, session, redirect, url_for, current_app
+from flask.wrappers import Response
 from .. import db
 from ..models import User
 from ..email import send_email
@@ -9,7 +10,7 @@ from .forms import NameForm
 @main.get("/")
 @main.post("/")
 def index():
-    form = NameForm()
+    form: NameForm = NameForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()
         if user is None:
