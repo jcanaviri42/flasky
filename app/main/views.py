@@ -1,10 +1,11 @@
 from flask import render_template, session, redirect, url_for, current_app
-from flask.wrappers import Response
-from .. import db
+
 from ..models import User
 from ..email import send_email
-from . import main
+from .. import db
+
 from .forms import NameForm
+from . import main
 
 
 @main.get("/")
